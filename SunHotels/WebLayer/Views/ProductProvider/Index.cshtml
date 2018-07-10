@@ -1,0 +1,40 @@
+﻿@model IList<WebLayer.Models.ProductProviderViewModel>
+
+@{
+    ViewBag.Title = "Add Product Provider";
+}
+
+<h2>Add Product Provider to @Html.DisplayFor(modelItem => Model.First().ProductName)</h2>
+ 
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+    
+}
+<table class="table">
+    <tr>
+        <th>
+             Name 
+        </th>
+        
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProviderName)
+            </td> 
+            <td>
+                @Html.ActionLink("Add", "AddProductProvider", new { productId= Model.First().ProductId, providerId = item.ProviderId })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+
+<p>
+    @Html.ActionLink("Back to Product", "Details","Product", new { id = Model.First().ProductId },null) 
+</p>

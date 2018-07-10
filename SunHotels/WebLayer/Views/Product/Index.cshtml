@@ -1,0 +1,102 @@
+﻿@model IList<WebLayer.Models.ProductViewModel>
+
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Products</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+    @*<p>
+            Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>*@
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { orderByFieldName = "Name", searchString = ViewBag.CurrentFilter, requestedPage = ViewBag.requestedPage, orderByDescending = !((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+        </th>
+        <th>
+            @Html.ActionLink("Description", "Index", new { orderByFieldName = "Description", searchString = ViewBag.CurrentFilter, requestedPage = ViewBag.requestedPage, orderByDescending = !((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+        </th>
+        <th></th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <div class="pagination pull-right">
+                    <li class='@(ViewBag.requestedPage == 1?"disabled":"")'>
+                        @if (ViewBag.requestedPage == 1)
+                        {
+                            <span>« First</span>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("« First", "Index", new { orderByFieldName = ViewBag.orderByFieldName, searchString = ViewBag.CurrentFilter, requestedPage = 1, orderByDescending = ((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+                        }
+                    </li>
+                    <li class='@(ViewBag.requestedPage == 1?"disabled":"")'>
+                        @if (ViewBag.requestedPage == 1)
+                        {
+                            <span>« Prev</span>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("« Prev", "Index", new { orderByFieldName = ViewBag.orderByFieldName, searchString = ViewBag.CurrentFilter, requestedPage = ViewBag.requestedPage - 1, orderByDescending = ((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+                        }
+                    </li>
+                    @for (int i = 1; i <= ViewBag.totalPages; i++)
+                    {
+                        <li class='@(ViewBag.requestedPage == i?"active":"")'>
+                            @Html.ActionLink(i.ToString(), "Index", new { orderByFieldName = ViewBag.orderByFieldName, searchString = ViewBag.CurrentFilter, requestedPage = i, orderByDescending = ((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+                        </li>
+                    }
+                    <li class='@(ViewBag.requestedPage == ViewBag.totalPages?"disabled":"")'>
+                        @if (ViewBag.requestedPage == ViewBag.totalPages)
+                        {
+                            <span>Next »</span>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Next »", "Index", new { orderByFieldName = ViewBag.orderByFieldName, searchString = ViewBag.CurrentFilter, requestedPage = ViewBag.requestedPage + 1, orderByDescending = ((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+                        }
+                    </li>
+                    <li class='@(ViewBag.requestedPage == ViewBag.totalPages?"disabled":"")'>
+                        @if (ViewBag.requestedPage == ViewBag.totalPages)
+                        {
+                            <span>Last »</span>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Last »", "Index", new { orderByFieldName = ViewBag.orderByFieldName, searchString = ViewBag.CurrentFilter, requestedPage = ViewBag.totalPages, orderByDescending = ((ViewBag.orderByDescending == null) ? true : ViewBag.orderByDescending), totalPages = ViewBag.totalPages })
+                        }
+                    </li>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+<br />
